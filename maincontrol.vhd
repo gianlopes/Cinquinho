@@ -156,7 +156,7 @@ begin
 			    dmemread <= '0';	
 			    dmemwrite <= '0';
 			    data2reg <= "010";
-                bregwrite <= '0';	
+                bregwrite <= '1';	
                 branch <= '0';
                 jal <= '1';
                 operation <= "----";
