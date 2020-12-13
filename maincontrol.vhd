@@ -14,6 +14,7 @@ entity maincontrol is
 			branch		: out std_logic;
 			data2reg	: out std_logic_vector(2 downto 0);
 			jal			: out std_logic;
+			jalr		: out std_logic;
 			operation	: out std_logic_vector(3 downto 0)
 
 	);
@@ -35,7 +36,8 @@ begin
                 bregwrite <= '1';	
                 branch <= '0';
 				jal <= '0';	
-				
+				jalr <= '0';	
+
 				case funct3 is
 					
 					--add ou sub
@@ -95,7 +97,8 @@ begin
 			    data2reg <= "001";
                 bregwrite <= '1';	
                 branch <= '0';
-				jal <= '0';	
+				jal <= '0';
+				jalr <= '0';
 				operation <= "0000";	
                 
              -- sw
@@ -107,6 +110,7 @@ begin
                 bregwrite <= '0';	
                 branch <= '0';
 				jal <= '0';
+				jalr <= '0';
 				operation <= "0000";
 				
              -- branch
@@ -118,6 +122,7 @@ begin
                 bregwrite <= '0';	
                 branch <= '1';
                 jal <= '0';
+				jalr <= '0';
                 
                 case funct3 is
 					
@@ -159,6 +164,7 @@ begin
                 bregwrite <= '1';	
                 branch <= '0';
                 jal <= '1';
+				jalr <= '0';
                 operation <= "----";
             
             -- tipo-I exceto loads e jalr
@@ -170,6 +176,7 @@ begin
                 bregwrite <= '1';	
                 branch <= '0';
 				jal <= '0';	
+				jalr <= '0';
 				
 				case funct3 is
 					
@@ -225,6 +232,7 @@ begin
                 bregwrite <= '1';	
                 branch <= '0';
                 jal <= '0';
+				jalr <= '0';
                 operation <= "----";
                 
             --auipc
@@ -236,8 +244,21 @@ begin
                 bregwrite <= '1';	
                 branch <= '0';
                 jal <= '0';
+				jalr <= '0';
                 operation <= "----";
 			
+			--jalr
+			when "1100111"=>
+				origAlu <= '1';
+				dmemread <= '0';
+				dmemwrite <= '0';
+				data2reg <= "010";
+				bregwrite <= '1';
+                branch <= '0';
+                jal <= '0';
+				jalr <= '1';
+				operation <= "0000";
+				
             -- others
 			when others =>
 				origALU	<= '-';
@@ -246,7 +267,8 @@ begin
 			    data2reg <= "---";
                 bregwrite <= '0';	
                 branch <= '0';
-                jal <= '0';
+				jal <= '0';
+				jalr <= '0';
                 operation <= "----";
 	  
 		end case;

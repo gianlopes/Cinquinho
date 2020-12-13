@@ -20,6 +20,7 @@ architecture rv_arch of rv is
 	signal pc_mux_out	: std_logic_vector(31 downto 0);
 	signal branch		: std_logic;
 	signal jal			: std_logic;
+	signal jalr			: std_logic;
 	
 	--instruction memory
 	signal inst			: std_logic_vector(31 downto 0);
@@ -72,7 +73,9 @@ begin
 	end process;
 	
 	--mux para decidir o proximo valor armazenado em PC
-	pc_mux_out <=  std_logic_vector(signed(pc) + signed(imm32)) when (jal or (result(0) and branch)) else std_logic_vector(unsigned(pc) + 4);
+	pc_mux_out <=  std_logic_vector(signed(pc) + signed(imm32)) when (jal or (result(0) and branch)) 
+					else result when jalr
+					else std_logic_vector(unsigned(pc) + 4);
 	
 	
 	top_imem : entity work.imem
@@ -148,7 +151,8 @@ begin
 			bregwrite	=> bregwrite,	
 	        branch		=> branch,		
 	        data2reg	=> data2reg,		
-	        jal			=> jal,
+			jal			=> jal,
+			jalr		=> jalr,
 	        operation	=> operation		
 	); 
 	
@@ -199,4 +203,6 @@ begin
 	end process;
 	
 end architecture rv_arch;
+
+
 

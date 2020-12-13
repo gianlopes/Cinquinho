@@ -18,6 +18,7 @@ add wave -noupdate /tb/UUT/data2reg
 add wave -noupdate /tb/UUT/bregwrite
 add wave -noupdate /tb/UUT/branch
 add wave -noupdate /tb/UUT/jal
+add wave -noupdate /tb/UUT/jalr
 add wave -noupdate /tb/UUT/operation
 add wave -noupdate -divider {Memoria de Instrucoes}
 add wave -noupdate -radix hexadecimal /tb/UUT/pc
@@ -43,7 +44,7 @@ add wave -noupdate /tb/UUT/top_dmem/dmemread
 add wave -noupdate -radix hexadecimal /tb/UUT/top_dmem/dmem_write_data
 add wave -noupdate -radix hexadecimal /tb/UUT/top_dmem/dmem_read_data
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {455000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1902 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 181
 configure wave -valuecolwidth 100
@@ -59,4 +60,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {1055250 ps}
+WaveRestoreZoom {0 ps} {32978 ps}
