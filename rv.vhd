@@ -60,6 +60,7 @@ architecture rv_arch of rv is
 	
 	--breg mux
 	signal data2reg: std_logic_vector(2 downto 0);
+	signal getbfw  : std_logic_vector(31 downto 0);
 	
 	--syscall
 	signal syscall_reg : std_logic_vector(31 downto 0) := (others => '0');
@@ -137,7 +138,8 @@ begin
 	); 
 	
 	--mux para decidir o que sera escrito em um registrador
-	reg_write_data <= std_logic_vector(signed(pc) + signed(imm32)) when data2reg="100" 
+	reg_write_data <= getbfw when data2reg="101"
+					else std_logic_vector(signed(pc) + signed(imm32)) when data2reg="100" 
 					else imm32 when data2reg="011" 
 					else std_logic_vector(unsigned(pc) + 4) when data2reg="010" 
 					else dmem_read_data when data2reg="001" 
@@ -169,6 +171,13 @@ begin
 			addine		=> addine,
 	        operation	=> operation		
 	); 
+
+	top_getBytefromWord : entity work.getBytefromWord
+	port map (
+		sel_byte => reg_data_2(1 downto 0),
+        input_word => reg_data_1,
+        output_byte => getbfw
+	);
 	
 	--process para gerar o arquivo de debug de saida e simular algumas chamadas de sistema do RARS
 	ecall_file: process(reset, clock)

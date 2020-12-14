@@ -300,6 +300,20 @@ begin
 				addine <= '1';
 				operation <= "0000";
 
+			--getbfw
+			when "1111111"=>
+				origALU <= '0';
+				dmemread <= '0';
+				dmemwrite <= '0';
+				data2reg <= "101";
+				bregwrite <= '1';
+				branch <= '0';
+				jal <= '0';
+				jalr <= '0';
+				addrpos <= '0';
+				addine <= '0';
+				operation <= "----";
+
             -- others
 			when others =>
 				origALU	<= '-';
