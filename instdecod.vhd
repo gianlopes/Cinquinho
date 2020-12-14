@@ -30,7 +30,7 @@ begin
 	
 		case '0' & inst(6 downto 0) is
 			when x"33" => imm32 <= (others => '0');
-			when x"03" | x"13" | x"67" => imm32 <= (31 downto 12 => inst(31)) & inst(31 downto 20);
+			when x"03" | x"13" | x"67" | x"0f" => imm32 <= (31 downto 12 => inst(31)) & inst(31 downto 20);
 			when x"23" => imm32 <= (31 downto 12 => inst(31)) & inst(31 downto 25) & inst(11 downto 7);
 			when x"63" => imm32 <= (31 downto 13 => inst(31)) & inst(31) & inst(7) & inst(30 downto 25) & inst(11 downto 8) & '0';
 			when x"17" | x"37" => imm32 <= inst(31 downto 12) & (11 downto 0 => '0');

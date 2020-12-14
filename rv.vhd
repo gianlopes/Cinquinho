@@ -36,6 +36,8 @@ architecture rv_arch of rv is
 	
 	--regfile
 	signal addrpos				: std_logic;
+	signal addine				: std_logic;
+	signal addine_sub			: std_logic_vector(31 downto 0);
 	signal bregwrite			: std_logic;
 	signal bregwrite_mainctrl	: std_logic;
 	signal reg_write_data		: std_logic_vector(31 downto 0);
@@ -142,9 +144,13 @@ begin
 					else result when data2reg="000" 
 					else (others=>'0');
 
-	bregwrite <= bregwrite_mainctrl when addrpos = '0'
-				else '1' when (signed(result) > 0)
-				else '0';
+	addine_sub <= std_logic_vector(signed(reg_data_1) - signed(imm32));
+	
+	bregwrite <= '1' when (signed(result) > 0) and addrpos = '1'
+				else '0' when (signed(result) > 0) and addrpos = '1'
+				else '1' when (signed(addine_sub) /= 0) and addine = '1'
+				else '0' when (signed(addine_sub) = 0) and addine = '1'
+				else bregwrite_mainctrl;
 	
 	top_maincontrol : entity work.maincontrol
 	port map ( 
@@ -160,6 +166,7 @@ begin
 			jal			=> jal,
 			jalr		=> jalr,
 			addrpos		=> addrpos,
+			addine		=> addine,
 	        operation	=> operation		
 	); 
 	

@@ -16,6 +16,7 @@ entity maincontrol is
 			jal			: out std_logic;
 			jalr		: out std_logic;
 			addrpos		: out std_logic;
+			addine		: out std_logic;
 			operation	: out std_logic_vector(3 downto 0)
 
 	);
@@ -38,6 +39,7 @@ begin
                 branch <= '0';
 				jal <= '0';	
 				jalr <= '0';	
+				addine <= '0';
 
 				if funct3 = "000" and funct7 = "0000001" then --addrpos
 					addrpos <= '1';
@@ -109,6 +111,7 @@ begin
 				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
 				operation <= "0000";	
                 
              -- sw
@@ -122,6 +125,7 @@ begin
 				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
 				operation <= "0000";
 				
              -- branch
@@ -135,6 +139,7 @@ begin
                 jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
                 
                 case funct3 is
 					
@@ -178,6 +183,7 @@ begin
                 jal <= '1';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
                 operation <= "----";
             
             -- tipo-I exceto loads e jalr
@@ -191,6 +197,7 @@ begin
 				jal <= '0';	
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
 				
 				case funct3 is
 					
@@ -248,6 +255,7 @@ begin
                 jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
                 operation <= "----";
                 
             --auipc
@@ -261,11 +269,12 @@ begin
                 jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
                 operation <= "----";
 			
 			--jalr
 			when "1100111"=>
-				origAlu <= '1';
+				origALU <= '1';
 				dmemread <= '0';
 				dmemwrite <= '0';
 				data2reg <= "010";
@@ -274,8 +283,23 @@ begin
                 jal <= '0';
 				jalr <= '1';
 				addrpos <= '0';
+				addine <= '0';
 				operation <= "0000";
 				
+			--addine
+			when "0001111"=>
+				origALU <= '1';
+				dmemread <= '0';
+				dmemwrite <= '0';
+				data2reg <= "000";
+				bregwrite <= '1';
+				branch <= '0';
+				jal <= '0';
+				jalr <= '0';
+				addrpos <= '0';
+				addine <= '1';
+				operation <= "0000";
+
             -- others
 			when others =>
 				origALU	<= '-';
@@ -287,6 +311,7 @@ begin
 				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
+				addine <= '0';
                 operation <= "----";
 	  
 		end case;
