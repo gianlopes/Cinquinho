@@ -163,20 +163,20 @@ begin
 			dmemread	=> dmemread,	
 			dmemwrite	=> dmemwrite,		
 			bregwrite	=> bregwrite_mainctrl,	
-	        branch		=> branch,		
-	        data2reg	=> data2reg,		
+			branch		=> branch,		
+			data2reg	=> data2reg,		
 			jal			=> jal,
 			jalr		=> jalr,
 			addrpos		=> addrpos,
 			addine		=> addine,
-	        operation	=> operation		
+			operation	=> operation		
 	); 
 
 	top_getBytefromWord : entity work.getBytefromWord
 	port map (
 		sel_byte => reg_data_2(1 downto 0),
-        input_word => reg_data_1,
-        output_byte => getbfw
+		input_word => reg_data_1,
+		output_byte => getbfw
 	);
 	
 	--process para gerar o arquivo de debug de saida e simular algumas chamadas de sistema do RARS

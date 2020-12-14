@@ -32,11 +32,11 @@ begin
 			-- tipo-R
 			when "0110011" =>
 				origALU	<= '0';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "000";
-                bregwrite <= '1';	
-                branch <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "000";
+				bregwrite <= '1';	
+				branch <= '0';
 				jal <= '0';	
 				jalr <= '0';	
 				addine <= '0';
@@ -103,45 +103,45 @@ begin
 			-- lw
 			when "0000011"=>
 				origALU	<= '1';
-			    dmemread <= '1';	
-			    dmemwrite <= '0';
-			    data2reg <= "001";
-                bregwrite <= '1';	
-                branch <= '0';
+				dmemread <= '1';	
+				dmemwrite <= '0';
+				data2reg <= "001";
+				bregwrite <= '1';	
+				branch <= '0';
 				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
 				operation <= "0000";	
-                
-             -- sw
+				
+			 -- sw
 			when "0100011"=>
 				origALU	<= '1';
-			    dmemread <= '0';	
-			    dmemwrite <= '1';
-			    data2reg <= "---";
-                bregwrite <= '0';	
-                branch <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '1';
+				data2reg <= "---";
+				bregwrite <= '0';	
+				branch <= '0';
 				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
 				operation <= "0000";
 				
-             -- branch
+			 -- branch
 			when "1100011"=>
 				origALU	<= '0';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "---";
-                bregwrite <= '0';	
-                branch <= '1';
-                jal <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "---";
+				bregwrite <= '0';	
+				branch <= '1';
+				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
-                
-                case funct3 is
+				
+				case funct3 is
 					
 					--beq
 					when "000" =>
@@ -171,29 +171,29 @@ begin
 						operation <= "----";
 						
 				end case;
-              
-             -- jal
+			  
+			 -- jal
 			when "1101111"=>
 				origALU	<= '-';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "010";
-                bregwrite <= '1';	
-                branch <= '0';
-                jal <= '1';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "010";
+				bregwrite <= '1';	
+				branch <= '0';
+				jal <= '1';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
-                operation <= "----";
-            
-            -- tipo-I exceto loads e jalr
+				operation <= "----";
+			
+			-- tipo-I exceto loads e jalr
 			when "0010011"=>
 				origALU	<= '1';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "000";
-                bregwrite <= '1';	
-                branch <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "000";
+				bregwrite <= '1';	
+				branch <= '0';
 				jal <= '0';	
 				jalr <= '0';
 				addrpos <= '0';
@@ -247,30 +247,30 @@ begin
 			--lui
 			when "0110111"=>
 				origALU	<= '-';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "011";
-                bregwrite <= '1';	
-                branch <= '0';
-                jal <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "011";
+				bregwrite <= '1';	
+				branch <= '0';
+				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
-                operation <= "----";
-                
-            --auipc
+				operation <= "----";
+				
+			--auipc
 			when "0010111"=>
 				origALU	<= '-';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "100";
-                bregwrite <= '1';	
-                branch <= '0';
-                jal <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "100";
+				bregwrite <= '1';	
+				branch <= '0';
+				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
-                operation <= "----";
+				operation <= "----";
 			
 			--jalr
 			when "1100111"=>
@@ -279,8 +279,8 @@ begin
 				dmemwrite <= '0';
 				data2reg <= "010";
 				bregwrite <= '1';
-                branch <= '0';
-                jal <= '0';
+				branch <= '0';
+				jal <= '0';
 				jalr <= '1';
 				addrpos <= '0';
 				addine <= '0';
@@ -314,19 +314,19 @@ begin
 				addine <= '0';
 				operation <= "----";
 
-            -- others
+			-- others
 			when others =>
 				origALU	<= '-';
-			    dmemread <= '0';	
-			    dmemwrite <= '0';
-			    data2reg <= "---";
-                bregwrite <= '0';	
-                branch <= '0';
+				dmemread <= '0';	
+				dmemwrite <= '0';
+				data2reg <= "---";
+				bregwrite <= '0';	
+				branch <= '0';
 				jal <= '0';
 				jalr <= '0';
 				addrpos <= '0';
 				addine <= '0';
-                operation <= "----";
+				operation <= "----";
 	  
 		end case;
 	end process;
