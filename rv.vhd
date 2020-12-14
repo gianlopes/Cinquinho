@@ -35,10 +35,12 @@ architecture rv_arch of rv is
 	signal imm32		: std_logic_vector(31 downto 0);
 	
 	--regfile
-	signal bregwrite		: std_logic;
-	signal reg_write_data	: std_logic_vector(31 downto 0);
-	signal reg_data_1		: std_logic_vector(31 downto 0);
-	signal reg_data_2		: std_logic_vector(31 downto 0);
+	signal addrpos				: std_logic;
+	signal bregwrite			: std_logic;
+	signal bregwrite_mainctrl	: std_logic;
+	signal reg_write_data		: std_logic_vector(31 downto 0);
+	signal reg_data_1			: std_logic_vector(31 downto 0);
+	signal reg_data_2			: std_logic_vector(31 downto 0);
 	
 	--alu
 	signal aluB		: std_logic_vector(31 downto 0);
@@ -99,7 +101,7 @@ begin
 	top_breg : entity work.breg
 	port map ( 
 			clock 			=> clock,
-			bregwrite		=> bregwrite,	
+			bregwrite		=> bregwrite,
 			reg_index_read1	=> rs1,
 			reg_index_read2	=> rs2,
 			reg_index_write	=> rd,
@@ -139,6 +141,10 @@ begin
 					else dmem_read_data when data2reg="001" 
 					else result when data2reg="000" 
 					else (others=>'0');
+
+	bregwrite <= bregwrite_mainctrl when addrpos = '0'
+				else '1' when (signed(result) > 0)
+				else '0';
 	
 	top_maincontrol : entity work.maincontrol
 	port map ( 
@@ -148,11 +154,12 @@ begin
 			origALU		=> origALU,		
 			dmemread	=> dmemread,	
 			dmemwrite	=> dmemwrite,		
-			bregwrite	=> bregwrite,	
+			bregwrite	=> bregwrite_mainctrl,	
 	        branch		=> branch,		
 	        data2reg	=> data2reg,		
 			jal			=> jal,
 			jalr		=> jalr,
+			addrpos		=> addrpos,
 	        operation	=> operation		
 	); 
 	

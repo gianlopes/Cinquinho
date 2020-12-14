@@ -15,6 +15,7 @@ entity maincontrol is
 			data2reg	: out std_logic_vector(2 downto 0);
 			jal			: out std_logic;
 			jalr		: out std_logic;
+			addrpos		: out std_logic;
 			operation	: out std_logic_vector(3 downto 0)
 
 	);
@@ -38,6 +39,12 @@ begin
 				jal <= '0';	
 				jalr <= '0';	
 
+				if funct3 = "000" and funct7 = "0000001" then --addrpos
+					addrpos <= '1';
+				else
+					addrpos <= '0';
+				end if;
+
 				case funct3 is
 					
 					--add ou sub
@@ -46,6 +53,8 @@ begin
 							operation <= "0000";
 						elsif funct7 = "0100000" then --sub
 							operation <= "0001";
+						elsif funct7 = "0000001" then --addrpos
+							operation <= "0000";
 						else 
 							operation <= (others=>'0');
 						end if;
@@ -99,6 +108,7 @@ begin
                 branch <= '0';
 				jal <= '0';
 				jalr <= '0';
+				addrpos <= '0';
 				operation <= "0000";	
                 
              -- sw
@@ -111,6 +121,7 @@ begin
                 branch <= '0';
 				jal <= '0';
 				jalr <= '0';
+				addrpos <= '0';
 				operation <= "0000";
 				
              -- branch
@@ -123,6 +134,7 @@ begin
                 branch <= '1';
                 jal <= '0';
 				jalr <= '0';
+				addrpos <= '0';
                 
                 case funct3 is
 					
@@ -165,6 +177,7 @@ begin
                 branch <= '0';
                 jal <= '1';
 				jalr <= '0';
+				addrpos <= '0';
                 operation <= "----";
             
             -- tipo-I exceto loads e jalr
@@ -177,6 +190,7 @@ begin
                 branch <= '0';
 				jal <= '0';	
 				jalr <= '0';
+				addrpos <= '0';
 				
 				case funct3 is
 					
@@ -233,6 +247,7 @@ begin
                 branch <= '0';
                 jal <= '0';
 				jalr <= '0';
+				addrpos <= '0';
                 operation <= "----";
                 
             --auipc
@@ -245,6 +260,7 @@ begin
                 branch <= '0';
                 jal <= '0';
 				jalr <= '0';
+				addrpos <= '0';
                 operation <= "----";
 			
 			--jalr
@@ -257,6 +273,7 @@ begin
                 branch <= '0';
                 jal <= '0';
 				jalr <= '1';
+				addrpos <= '0';
 				operation <= "0000";
 				
             -- others
@@ -269,6 +286,7 @@ begin
                 branch <= '0';
 				jal <= '0';
 				jalr <= '0';
+				addrpos <= '0';
                 operation <= "----";
 	  
 		end case;
