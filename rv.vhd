@@ -149,7 +149,7 @@ begin
 	addine_sub <= std_logic_vector(signed(reg_data_1) - signed(imm32));
 	
 	bregwrite <= '1' when (signed(result) > 0) and addrpos = '1'
-				else '0' when (signed(result) > 0) and addrpos = '1'
+				else '0' when (signed(result) <= 0) and addrpos = '1'
 				else '1' when (signed(addine_sub) /= 0) and addine = '1'
 				else '0' when (signed(addine_sub) = 0) and addine = '1'
 				else bregwrite_mainctrl;
